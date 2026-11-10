@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "UserProfile": {
+      "collection": "users",
+      "fields": {
+        "userId": { "type": "string", "description": "Auth UID" },
+        "fullName": { "type": "string", "description": "Player full name" },
+        "ffName": { "type": "string", "description": "Free Fire IGN" },
+        "ffUid": { "type": "string", "description": "Free Fire numeric UID" },
+        "email": { "type": "string", "description": "User email address" },
+        "role": { "type": "string", "description": "SUPER_ADMIN, ADMIN, or PLAYER" },
+        "coins": { "type": "number", "description": "Coin balance" },
+        "totalMatches": { "type": "number", "description": "Matches count" },
+        "matchesWon": { "type": "number", "description": "Matches won count" },
+        "totalKills": { "type": "number", "description": "Kills count" },
+        "createdAt": { "type": "timestamp", "description": "Account creation time" },
+        "updatedAt": { "type": "timestamp", "description": "Account update time" }
+      }
+    },
+    "Tournament": {
+      "collection": "tournaments",
+      "fields": {
+        "title": { "type": "string", "description": "Tournament title" },
+        "map": { "type": "string", "description": "Bermuda, Purgatory, Kalahari, Nexterra" },
+        "matchType": { "type": "string", "description": "Solo, Duo, Squad" },
+        "entryFee": { "type": "number", "description": "Coins to register" },
+        "prizePool": { "type": "number", "description": "Total prize coins" },
+        "perKillReward": { "type": "number", "description": "Coins per kill" },
+        "matchTime": { "type": "string", "description": "Scheduled time string" },
+        "maxPlayers": { "type": "number", "description": "Slot capacity" },
+        "joinedCount": { "type": "number", "description": "Enrolled count" },
+        "roomId": { "type": "string", "description": "Free Fire custom room ID" },
+        "roomPassword": { "type": "string", "description": "Free Fire custom room password" },
+        "status": { "type": "string", "description": "UPCOMING, ONGOING, COMPLETED, CANCELLED" },
+        "createdAt": { "type": "timestamp", "description": "Creation timestamp" }
+      }
+    },
+    "Registration": {
+      "collection": "registrations",
+      "fields": {
+        "tournamentId": { "type": "string", "description": "Tournament document ID" },
+        "userId": { "type": "string", "description": "Player UID" },
+        "playerFfName": { "type": "string", "description": "Free Fire IGN" },
+        "slotNumber": { "type": "number", "description": "Assigned slot number" },
+        "createdAt": { "type": "timestamp", "description": "Registration timestamp" }
+      }
+    },
+    "Announcement": {
+      "collection": "announcements",
+      "fields": {
+        "title": { "type": "string", "description": "Announcement headline" },
+        "message": { "type": "string", "description": "Announcement body" },
+        "createdAt": { "type": "timestamp", "description": "Creation timestamp" }
+      }
+    }
+  }
+}

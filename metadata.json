@@ -1,0 +1,6 @@
+{
+  "name": "PAK PAKISTAN TOURNAMENT",
+  "description": "PAK PAKISTAN TOURNAMENT - Complete Free Fire Esports Tournament App with Abdullah & Hamza admin panels, live match rooms, team registration, wallet (Easypaisa, JazzCash, Paytm), and leaderboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PAK PAKISTAN TOURNAMENT - Complete Esports Platform</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #080D1A;
+            --bg-secondary: #111A2E;
+            --bg-card: #16243D;
+            --cyan: #00E5FF;
+            --orange: #FF6B00;
+            --purple: #8B5CF6;
+            --green: #22C55E;
+            --red: #EF4444;
+            --gold: #FACC15;
+            --text-white: #FFFFFF;
+            --text-gray: #AAB4C8;
+            --border-glow: rgba(0, 229, 255, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        body {
+            background-color: #03060d;
+            color: var(--text-white);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        #app-viewport {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            background: var(--bg-primary);
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Topbar Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            background: rgba(17, 26, 46, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1.5px solid rgba(0, 229, 255, 0.25);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .brand-emblem {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #0f172a;
+            border: 1.5px solid var(--cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .brand-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: white;
+            line-height: 1.1;
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            color: var(--cyan);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .coin-pill {
+            background: rgba(250, 204, 21, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .coin-pill:active { transform: scale(0.95); }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Screen containers */
+        .screen-view {
+            display: none;
+            flex: 1;
+            padding-bottom: 78px;
+        }
+
+        .screen-view.active {
+            display: block;
+        }
+
+        /* Hero Banner & Sliders */
+        .hero-banner {
+            margin: 12px 14px;
+            height: 155px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(8, 13, 26, 0.2) 0%, rgba(8, 13, 26, 0.95) 100%),
+                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80') center/cover;
+            border: 1.5px solid;
+            border-image: linear-gradient(90deg, var(--orange), var(--cyan), var(--purple)) 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 14px;
+        }
+
+        .hero-badge {
+            align-self: flex-start;
+            background: var(--orange);
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 4px;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 17px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .hero-sub {
+            font-size: 12px;
+            color: var(--text-gray);
+        }
+
+        /* Announcement Ticker */
+        .announcement-ticker {
+            margin: 0 14px 10px 14px;
+            background: rgba(255, 107, 0, 0.1);
+            border: 1px solid rgba(255, 107, 0, 0.4);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Profile Summary Card */
+        .profile-card {
+            margin: 0 14px 12px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(0, 229, 255, 0.35);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .profile-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 2px solid var(--cyan);
+            background: #0d1627;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .player-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .player-ff {
+            font-size: 12px;
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 10px 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-top: 2px;
+        }
+
+        /* Quick Action Buttons */
+        .actions-grid {
+            margin: 0 14px 12px 14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-cyber {
+            padding: 11px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform 0.15s;
+        }
+
+        .btn-cyber:active { transform: scale(0.97); }
+
+        .btn-fire {
+            background: linear-gradient(135deg, var(--orange), #FF4500);
+            color: white;
+            box-shadow: 0 4px 14px rgba(255, 107, 0, 0.3);
+        }
+
+        .btn-cyan {
+            background: linear-gradient(135deg, var(--cyan), #0099FF);
+            color: #03141A;
+            box-shadow: 0 4px 14px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-outline-cyan {
+            background: transparent;
+            border: 1.5px solid var(--cyan);
+            color: var(--cyan);
+        }
+
+        .btn-outline-gold {
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+        }
+
+        /* Filter Chips */
+        .filter-scroller {
+            display: flex;
+            gap: 8px;
+            padding: 0 14px 12px 14px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-scroller::-webkit-scrollbar { display: none; }
+
+        .chip {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--bg-secondary);
+            color: var(--text-gray);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .chip.active {
+            background: var(--cyan);
+            color: #03141A;
+            border-color: var(--cyan);
+        }
+
+        /* Tournament Cards */
+        .tourney-cards {
+            padding: 0 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .tourney-item {
+            background: var(--bg-secondary);
+            border: 1.5px solid rgba(0, 229, 255, 0.3);
+            border-radius: 14px;
+            padding: 14px;
+            position: relative;
+        }
+
+        .tourney-item.live {
+            border-color: var(--orange);
+            box-shadow: 0 0 18px rgba(255, 107, 0, 0.25);
+        }
+
+        .tourney-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .badge-map {
+            background: rgba(0, 229, 255, 0.15);
+            color: var(--cyan);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-status {
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .status-upcoming {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .status-ongoing {
+            background: rgba(255, 107, 0, 0.25);
+            color: var(--orange);
+            border: 1px solid var(--orange);
+        }
+
+        .status-completed {
+            background: rgba(170, 180, 200, 0.2);
+            color: var(--text-gray);
+            border: 1px solid var(--text-gray);
+        }
+
+        .tourney-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .tourney-time {
+            font-size: 12px;
+            color: var(--text-gray);
+            margin-bottom: 10px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: var(--bg-primary);
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .m-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+
+        .m-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .progress-box {
+            margin-bottom: 12px;
+        }
+
+        .p-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-gray);
+            margin-bottom: 4px;
+        }
+
+        .p-bar {
+            width: 100%;
+            height: 6px;
+            background: #18263e;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .p-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cyan), var(--orange));
+        }
+
+        /* Room Credentials Box */
+        .room-box {
+            background: rgba(250, 204, 21, 0.12);
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .room-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .btn-copy {
+            background: var(--gold);
+            color: black;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        /* Wallet Views */
+        .wallet-banner {
+            background: linear-gradient(135deg, #1b263b, #111A2E);
+            border: 1px solid var(--gold);
+            border-radius: 16px;
+            padding: 18px;
+            margin: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wallet-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--gold);
+        }
+
+        .account-card {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px;
+            margin: 0 14px 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group {
+            padding: 0 14px;
+            margin-bottom: 12px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--bg-primary);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            color: white;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--cyan);
+        }
+
+        /* Leaderboard */
+        .podium-box {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 12px;
+            margin: 14px;
+            padding: 14px 0;
+        }
+
+        .podium-slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90px;
+        }
+
+        .podium-bar {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+        }
+
+        /* Community Chat Box */
+        .chat-wrap {
+            margin: 14px;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-msg {
+            background: var(--bg-primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .chat-sender {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--cyan);
+            margin-bottom: 2px;
+        }
+
+        .chat-input-bar {
+            display: flex;
+            padding: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 8px;
+        }
+
+        /* Admin Section */
+        .admin-stat-card {
+            background: var(--bg-secondary);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid var(--cyan);
+        }
+
+        /* Bottom Nav */
+        nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 480px;
+            background: rgba(17, 26, 46, 0.98);
+            backdrop-filter: blur(14px);
+            border-top: 1.5px solid rgba(0, 229, 255, 0.25);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-gray);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            gap: 2px;
+        }
+
+        .nav-link.active {
+            color: var(--cyan);
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+            padding: 18px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--cyan);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.35);
+        }
+
+        /* Toast */
+        #toast-banner {
+            position: fixed;
+            bottom: 84px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--cyan);
+            color: #03141A;
+            font-weight: 800;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: none;
+            z-index: 300;
+            box-shadow: 0 4px 16px rgba(0, 229, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<div id="app-viewport">
+
+    <!-- Top Navigation Header -->
+    <header>
+        <div class="brand-container" onclick="showScreen('arena')">
+            <div class="brand-emblem">🇵🇰</div>
+            <div>
+                <div class="brand-name">PAK PAKISTAN</div>
+                <div class="brand-sub">FREE FIRE TOURNAMENT</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="coin-pill" onclick="showScreen('wallet')">
+                <span>🪙</span>
+                <span id="txt-header-coins">3450</span>
+            </div>
+            <div class="btn-icon" onclick="openProfileModal()">👤</div>
+            <div class="btn-icon" onclick="openDrawerModal()">☰</div>
+        </div>
+    </header>
+
+    <!-- SCREEN 1: ARENA DASHBOARD -->
+    <div id="screen-arena" class="screen-view active">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <span class="hero-badge">🔥 FIRE ESPORTS PRO</span>
+            <div class="hero-title">FREE FIRE BATTLEGROUND</div>
+            <div class="hero-sub">Daily, Weekly & Monthly Cash Tournaments</div>
+        </div>
+
+        <!-- Announcement Ticker -->
+        <div class="announcement-ticker" onclick="showScreen('chat')">
+            <span style="font-size: 16px;">📢</span>
+            <span id="txt-ticker" style="color: white; font-weight: 600;">Welcome to PAK PAKISTAN TOURNAMENT! Next Bermuda match at 09:00 PM.</span>
+        </div>
+
+        <!-- Player Profile Card -->
+        <div class="profile-card">
+            <div class="profile-top">
+                <div class="player-info">
+                    <div class="avatar-circle">🎖️</div>
+                    <div>
+                        <div class="player-name" id="txt-player-name">PakViper</div>
+                        <div class="player-ff" id="txt-player-uid">UID: 729104821 • Level 68</div>
+                    </div>
+                </div>
+                <span style="font-size: 11px; background: rgba(34, 197, 94, 0.15); color: var(--green); padding: 3px 8px; border-radius: 6px; font-weight: bold; border: 1px solid var(--green);">
+                    VERIFIED ✓
+                </span>
+            </div>
+
+            <div class="stats-row">
+                <div>
+                    <div class="stat-val" style="color: var(--cyan);" id="txt-stat-matches">38</div>
+                    <div class="stat-lbl">Matches</div>
+                </div>
+                <div>
+                    <div class="stat-val" style="color: var(--green);" id="txt-stat-wins">24</div>
+                    <div class="stat-lbl">Wins</div>
+                </div>
+                <div>
+                    <div class="stat-val" style="color: var(--purple);">63%</div>
+                    <div class="stat-lbl">Win Rate</div>
+                </div>
+                <div>
+                    <div class="stat-val" style="color: var(--orange);" id="txt-stat-kills">112</div>
+                    <div class="stat-lbl">Kills</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Row -->
+        <div class="actions-grid">
+            <button class="btn-cyber btn-fire" onclick="claimDailyReward()">🎁 DAILY REWARD (+20)</button>
+            <button class="btn-cyber btn-outline-cyan" onclick="openSquadModal()">🛡️ REGISTER SQUAD</button>
+        </div>
+
+        <!-- Match Filter Chips -->
+        <div class="filter-scroller">
+            <div class="chip active" onclick="setTourneyFilter('ALL', this)">ALL MATCHES</div>
+            <div class="chip" onclick="setTourneyFilter('UPCOMING', this)">UPCOMING</div>
+            <div class="chip" onclick="setTourneyFilter('ONGOING', this)">LIVE NOW</div>
+            <div class="chip" onclick="setTourneyFilter('COMPLETED', this)">COMPLETED</div>
+        </div>
+
+        <!-- Tournament Cards Container -->
+        <div class="tourney-cards" id="tourney-list-container">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- SCREEN 2: WALLET -->
+    <div id="screen-wallet" class="screen-view">
+        <div class="wallet-banner">
+            <div>
+                <div style="font-size: 11px; color: var(--text-gray); font-weight: 700;">ACTIVE COIN BALANCE</div>
+                <div class="wallet-amount" id="txt-wallet-coins">3450 COINS</div>
+                <div style="font-size: 12px; color: var(--green); font-weight: 700; margin-top: 4px;">1 PKR / INR = 1 Coin</div>
+            </div>
+            <div style="font-size: 38px;">💰</div>
+        </div>
+
+        <div style="padding: 0 14px 8px 14px; font-family: 'Orbitron'; font-size: 13px; font-weight: 700; color: var(--cyan);">
+            OFFICIAL DEPOSIT ACCOUNTS (PAKISTAN / INDIA)
+        </div>
+
+        <div class="account-card">
+            <div>
+                <div style="font-weight: 700; color: var(--green);">EasyPaisa (Pakistan)</div>
+                <div style="font-size: 12px; color: var(--text-gray);">Title: Pak Pakistan Official</div>
+                <div style="font-family: 'Orbitron'; font-size: 13px; font-weight: 700; color: white;">0312-7861122</div>
+            </div>
+            <button class="btn-copy" onclick="copyToClipboard('0312-7861122', 'EasyPaisa')">COPY</button>
+        </div>
+
+        <div class="account-card">
+            <div>
+                <div style="font-weight: 700; color: var(--red);">JazzCash (Pakistan)</div>
+                <div style="font-size: 12px; color: var(--text-gray);">Title: Pak Pakistan Official</div>
+                <div style="font-family: 'Orbitron'; font-size: 13px; font-weight: 700; color: white;">0300-7861122</div>
+            </div>
+            <button class="btn-copy" onclick="copyToClipboard('0300-7861122', 'JazzCash')">COPY</button>
+        </div>
+
+        <div class="account-card">
+            <div>
+                <div style="font-weight: 700; color: var(--cyan);">Paytm / UPI (India)</div>
+                <div style="font-size: 12px; color: var(--text-gray);">Title: Pak Pakistan Official</div>
+                <div style="font-family: 'Orbitron'; font-size: 13px; font-weight: 700; color: white;">pakpakistan@paytm</div>
+            </div>
+            <button class="btn-copy" onclick="copyToClipboard('pakpakistan@paytm', 'Paytm UPI')">COPY</button>
+        </div>
+
+        <div class="form-group" style="margin-top: 10px;">
+            <div style="font-family: 'Orbitron'; font-size: 13px; font-weight: 700; color: var(--cyan); margin-bottom: 8px;">
+                SUBMIT DEPOSIT TRANSACTION PROOF
+            </div>
+            <input type="number" id="inp-deposit-amt" class="input-field" placeholder="Amount Paid (e.g. 500 PKR)">
+            <input type="text" id="inp-deposit-txid" class="input-field" placeholder="Transaction ID / Reference ID *">
+            <input type="text" id="inp-deposit-sender" class="input-field" placeholder="Sender Mobile Number / Name">
+            <button class="btn-cyber btn-cyan" style="width: 100%; padding: 12px;" onclick="handleDepositSubmit()">SUBMIT PROOF FOR VERIFICATION</button>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: LEADERBOARD -->
+    <div id="screen-ranking" class="screen-view">
+        <div style="padding: 14px 14px 0 14px;">
+            <div style="font-family: 'Orbitron'; font-size: 16px; font-weight: 700; color: var(--cyan);">
+                WARRIOR LEADERBOARD
+            </div>
+            <div style="font-size: 12px; color: var(--text-gray);">
+                Top ranked Free Fire players across Pakistan tournaments
+            </div>
+        </div>
+
+        <!-- Podium for Top 3 -->
+        <div class="podium-box">
+            <!-- Rank 2 -->
+            <div class="podium-slot">
+                <div style="font-size: 12px; font-weight: 700;">PakFalcon</div>
+                <div style="font-size: 11px; color: var(--text-gray);">21 Wins</div>
+                <div class="podium-bar" style="height: 70px; background: #94a3b8; color: #0f172a;">#2</div>
+            </div>
+            <!-- Rank 1 -->
+            <div class="podium-slot">
+                <div style="font-size: 13px; font-weight: 700; color: var(--gold);">PakViper</div>
+                <div style="font-size: 11px; color: var(--gold);">24 Wins</div>
+                <div class="podium-bar" style="height: 95px; background: var(--gold); color: #0f172a;">#1</div>
+            </div>
+            <!-- Rank 3 -->
+            <div class="podium-slot">
+                <div style="font-size: 12px; font-weight: 700;">PeshawarKing</div>
+                <div style="font-size: 11px; color: var(--text-gray);">19 Wins</div>
+                <div class="podium-bar" style="height: 55px; background: #b45309; color: white;">#3</div>
+            </div>
+        </div>
+
+        <!-- List -->
+        <div style="padding: 0 14px; display: flex; flex-direction: column; gap: 8px;" id="ranking-list-container">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- SCREEN 4: COMMUNITY CHAT -->
+    <div id="screen-chat" class="screen-view">
+        <div style="padding: 14px 14px 0 14px;">
+            <div style="font-family: 'Orbitron'; font-size: 16px; font-weight: 700; color: var(--cyan);">
+                PLAYER COMMUNITY CHAT
+            </div>
+            <div style="font-size: 12px; color: var(--text-gray);">
+                Connect with active warriors, find duos, and discuss matches
+            </div>
+        </div>
+
+        <div class="chat-wrap">
+            <div class="chat-messages" id="chat-messages-box">
+                <!-- Rendered by JS -->
+            </div>
+            <div class="chat-input-bar">
+                <input type="text" id="inp-chat-msg" class="input-field" placeholder="Type message..." style="margin-bottom: 0;">
+                <button class="btn-cyber btn-cyan" style="width: 75px;" onclick="sendChatMessage()">SEND</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 5: ADMIN DASHBOARD (Abdullah Super Admin) -->
+    <div id="screen-admin" class="screen-view">
+        <div style="padding: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                    <div style="font-family: 'Orbitron'; font-size: 16px; font-weight: 700; color: var(--orange);">
+                        ADMIN CONTROL ROOM
+                    </div>
+                    <div style="font-size: 12px; color: var(--gold);">Authorized: Super Admin Abdullah</div>
+                </div>
+                <span class="hero-badge" style="background: var(--purple);">SEC 19</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                <div class="admin-stat-card">
+                    <div style="font-size: 11px; color: var(--text-gray);">TOTAL PLAYERS</div>
+                    <div style="font-family: 'Orbitron'; font-size: 18px; font-weight: 700;">420</div>
+                </div>
+                <div class="admin-stat-card" style="border-left-color: var(--green);">
+                    <div style="font-size: 11px; color: var(--text-gray);">REVENUE (PKR)</div>
+                    <div style="font-family: 'Orbitron'; font-size: 18px; font-weight: 700; color: var(--green);">₨ 84,500</div>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-secondary); padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 14px;">
+                <div style="font-family: 'Orbitron'; font-size: 13px; font-weight: 700; color: var(--cyan); margin-bottom: 8px;">
+                    CREATE & PUBLISH TOURNAMENT
+                </div>
+                <input type="text" id="adm-match-name" class="input-field" placeholder="Match Title (e.g. Bermuda Midnight Clash)">
+                <div style="display: flex; gap: 8px;">
+                    <select id="adm-match-map" class="input-field">
+                        <option>Bermuda</option>
+                        <option>Purgatory</option>
+                        <option>Kalahari</option>
+                        <option>Nexterra</option>
+                    </select>
+                    <select id="adm-match-mode" class="input-field">
+                        <option>Solo</option>
+                        <option>Duo</option>
+                        <option>Squad</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <input type="number" id="adm-match-fee" class="input-field" placeholder="Entry Fee (Coins)">
+                    <input type="number" id="adm-match-prize" class="input-field" placeholder="Prize Pool (Coins)">
+                </div>
+                <input type="text" id="adm-match-time" class="input-field" placeholder="Schedule (e.g. Tonight 11:00 PM)">
+                <button class="btn-cyber btn-fire" style="width: 100%; padding: 12px;" onclick="publishAdminTournament()">PUBLISH TOURNAMENT TO ARENA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav>
+        <div class="nav-link active" onclick="showScreen('arena', this)">
+            <span class="nav-icon">🎮</span>
+            <span>Arena</span>
+        </div>
+        <div class="nav-link" onclick="showScreen('wallet', this)">
+            <span class="nav-icon">💳</span>
+            <span>Wallet</span>
+        </div>
+        <div class="nav-link" onclick="showScreen('ranking', this)">
+            <span class="nav-icon">🏆</span>
+            <span>Ranking</span>
+        </div>
+        <div class="nav-link" onclick="showScreen('chat', this)">
+            <span class="nav-icon">💬</span>
+            <span>Chat</span>
+        </div>
+        <div class="nav-link" onclick="showScreen('admin', this)">
+            <span class="nav-icon">🛡️</span>
+            <span>Admin</span>
+        </div>
+    </nav>
+
+</div>
+
+<!-- MODAL: Join Tournament Confirmation -->
+<div id="modal-join" class="modal-overlay">
+    <div class="modal-card">
+        <div style="font-family: 'Orbitron'; font-size: 15px; font-weight: 700; color: var(--cyan); margin-bottom: 8px;">CONFIRM TOURNAMENT ENTRY</div>
+        <div id="join-m-title" style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Match</div>
+        <div id="join-m-fee" style="font-size: 13px; color: var(--orange); margin-bottom: 16px;">Fee: 50 Coins</div>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-cyber btn-cyan" style="flex: 1;" onclick="executeJoin()">PAY & JOIN</button>
+            <button class="btn-cyber btn-outline-cyan" style="flex: 1;" onclick="closeModal('modal-join')">CANCEL</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Squad Registration -->
+<div id="modal-squad" class="modal-overlay">
+    <div class="modal-card">
+        <div style="font-family: 'Orbitron'; font-size: 15px; font-weight: 700; color: var(--cyan); margin-bottom: 8px;">REGISTER SQUAD TEAM</div>
+        <input type="text" id="sq-team-name" class="input-field" placeholder="Team Name (e.g. Lahore Kings)">
+        <input type="text" id="sq-lead-uid" class="input-field" placeholder="Leader FF UID">
+        <input type="text" id="sq-p2-uid" class="input-field" placeholder="Player 2 FF UID">
+        <input type="text" id="sq-p3-uid" class="input-field" placeholder="Player 3 FF UID">
+        <input type="text" id="sq-p4-uid" class="input-field" placeholder="Player 4 FF UID">
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-cyber btn-fire" style="flex: 1;" onclick="saveSquadTeam()">REGISTER SQUAD</button>
+            <button class="btn-cyber btn-outline-cyan" style="flex: 1;" onclick="closeModal('modal-squad')">CLOSE</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL: Profile / Menu Drawer -->
+<div id="modal-drawer" class="modal-overlay">
+    <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="font-family: 'Orbitron'; font-size: 15px; font-weight: 700; color: var(--cyan);">MENU & SUPPORT</div>
+            <div style="cursor: pointer; font-size: 18px;" onclick="closeModal('modal-drawer')">✕</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="btn-cyber btn-outline-cyan" onclick="showScreen('arena'); closeModal('modal-drawer');">🏠 Home Dashboard</button>
+            <button class="btn-cyber btn-outline-cyan" onclick="showScreen('wallet'); closeModal('modal-drawer');">💳 Official Wallet</button>
+            <button class="btn-cyber btn-outline-cyan" onclick="showScreen('ranking'); closeModal('modal-drawer');">🏆 Leaderboard</button>
+            <button class="btn-cyber btn-outline-cyan" onclick="showScreen('chat'); closeModal('modal-drawer');">💬 Community Chat</button>
+            <button class="btn-cyber btn-outline-cyan" onclick="showScreen('admin'); closeModal('modal-drawer');">🛡️ Super Admin Panel</button>
+            <button class="btn-cyber btn-outline-gold" onclick="alert('Help Desk: WhatsApp +92 300 7861122\nEmail: support@pakpakistantournament.com')">📞 Support & Rules</button>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Toast -->
+<div id="toast-banner"></div>
+
+<script>
+    // In-Memory Database Model (Fully Consolidated)
+    let state = {
+        user: {
+            name: "PakViper",
+            uid: "729104821",
+            coins: 3450,
+            matches: 38,
+            wins: 24,
+            kills: 112
+        },
+        tournaments: [
+            {
+                id: 1,
+                title: "PAK CHAMPIONSHIP SOLO CUP",
+                map: "Bermuda",
+                mode: "Solo",
+                fee: 50,
+                prize: 2000,
+                perKill: 20,
+                time: "Tonight 09:00 PM",
+                joined: 42,
+                max: 48,
+                status: "UPCOMING",
+                roomId: "8472910",
+                roomPass: "ff786",
+                hasJoined: false
+            },
+            {
+                id: 2,
+                title: "LAHORE WARRIORS DUO ARENA",
+                map: "Purgatory",
+                mode: "Duo",
+                fee: 100,
+                prize: 4000,
+                perKill: 40,
+                time: "Tonight 10:30 PM",
+                joined: 24,
+                max: 24,
+                status: "ONGOING",
+                roomId: "9910243",
+                roomPass: "pakbattle",
+                hasJoined: true
+            },
+            {
+                id: 3,
+                title: "KARACHI SQUAD CLASH",
+                map: "Kalahari",
+                mode: "Squad",
+                fee: 200,
+                prize: 8000,
+                perKill: 80,
+                time: "Tomorrow 08:00 PM",
+                joined: 8,
+                max: 12,
+                status: "UPCOMING",
+                roomId: "",
+                roomPass: "",
+                hasJoined: false
+            },
+            {
+                id: 4,
+                title: "PAK GRAND FINALS (BERMUDA)",
+                map: "Bermuda",
+                mode: "Squad",
+                fee: 500,
+                prize: 25000,
+                perKill: 150,
+                time: "Yesterday 09:00 PM",
+                joined: 12,
+                max: 12,
+                status: "COMPLETED",
+                roomId: "5512034",
+                roomPass: "finalsff",
+                hasJoined: true
+            }
+        ],
+        leaderboard: [
+            { rank: 1, name: "PakViper", uid: "729104821", wins: 24, kills: 112 },
+            { rank: 2, name: "PakFalcon", uid: "551940212", wins: 21, kills: 98 },
+            { rank: 3, name: "PeshawarKing", uid: "882190341", wins: 19, kills: 91 },
+            { rank: 4, name: "SultanFF", uid: "661204911", wins: 15, kills: 74 },
+            { rank: 5, name: "PakAbdullah", uid: "100000001", wins: 14, kills: 69 }
+        ],
+        chat: [
+            { sender: "PakFalcon", text: "Who wants to team up for Lahore Duo at 10:30 PM?" },
+            { sender: "SultanFF", text: "I'm ready bro, add my UID 661204911." },
+            { sender: "Admin Abdullah", text: "Match rooms credentials are released 15 mins before kick-off." },
+            { sender: "PakViper", text: "EasyPaisa deposit verified in 2 minutes, good job!" }
+        ],
+        currentFilter: 'ALL',
+        selectedTourneyId: null
+    };
+
+    // Navigation switching
+    function showScreen(screenId, element) {
+        document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById('screen-' + screenId);
+        if (target) target.classList.add('active');
+
+        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+        if (element) {
+            element.classList.add('active');
+        } else {
+            const indexMap = { 'arena': 0, 'wallet': 1, 'ranking': 2, 'chat': 3, 'admin': 4 };
+            const idx = indexMap[screenId] || 0;
+            document.querySelectorAll('.nav-link')[idx].classList.add('active');
+        }
+        window.scrollTo(0, 0);
+    }
+
+    // Filter Tournaments
+    function setTourneyFilter(filter, el) {
+        state.currentFilter = filter;
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        renderTournaments();
+    }
+
+    // Render Tournaments
+    function renderTournaments() {
+        const container = document.getElementById('tourney-list-container');
+        container.innerHTML = '';
+
+        const list = state.tournaments.filter(t => state.currentFilter === 'ALL' || t.status === state.currentFilter);
+
+        list.forEach(t => {
+            const card = document.createElement('div');
+            card.className = `tourney-item ${t.status === 'ONGOING' ? 'live' : ''}`;
+
+            const percent = Math.min(100, Math.round((t.joined / t.max) * 100));
+
+            let btnHtml = '';
+            if (t.hasJoined) {
+                btnHtml = `<button class="btn-cyber btn-outline-cyan" style="width: 100%; color: var(--green); border-color: var(--green);">JOINED ✓</button>`;
+            } else if (t.status === 'COMPLETED') {
+                btnHtml = `<button class="btn-cyber btn-outline-cyan" style="width: 100%; color: var(--text-gray); border-color: var(--text-gray);" disabled>COMPLETED</button>`;
+            } else if (t.joined >= t.max) {
+                btnHtml = `<button class="btn-cyber btn-outline-cyan" style="width: 100%; color: var(--red); border-color: var(--red);" disabled>SLOTS FULL</button>`;
+            } else {
+                btnHtml = `<button class="btn-cyber btn-cyan" style="width: 100%;" onclick="openJoinModal(${t.id})">JOIN MATCH (${t.fee} COINS)</button>`;
+            }
+
+            let roomHtml = '';
+            if (t.hasJoined && t.roomId) {
+                roomHtml = `
+                    <div class="room-box">
+                        <div class="room-row">
+                            <span style="color:var(--gold); font-weight:700;">ROOM ID: ${t.roomId}</span>
+                            <button class="btn-copy" onclick="copyToClipboard('${t.roomId}', 'Room ID')">COPY</button>
+                        </div>
+                        <div class="room-row">
+                            <span style="color:var(--gold); font-weight:700;">PASSWORD: ${t.roomPass}</span>
+                            <button class="btn-copy" onclick="copyToClipboard('${t.roomPass}', 'Password')">COPY</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="tourney-header">
+                    <span class="badge-map">${t.map} • ${t.mode}</span>
+                    <span class="badge-status status-${t.status.toLowerCase()}">${t.status}</span>
+                </div>
+                <div class="tourney-title">${t.title}</div>
+                <div class="tourney-time">⏰ Time: ${t.time}</div>
+
+                <div class="metrics-grid">
+                    <div>
+                        <div class="m-label">ENTRY FEE</div>
+                        <div class="m-val" style="color: var(--orange);">${t.fee} C</div>
+                    </div>
+                    <div>
+                        <div class="m-label">PRIZE POOL</div>
+                        <div class="m-val" style="color: var(--green);">${t.prize} C</div>
+                    </div>
+                    <div>
+                        <div class="m-label">PER KILL</div>
+                        <div class="m-val" style="color: var(--cyan);">+${t.perKill} C</div>
+                    </div>
+                </div>
+
+                <div class="progress-box">
+                    <div class="p-info">
+                        <span>Slots: ${t.max - t.joined} Left</span>
+                        <span>${t.joined}/${t.max} (${percent}%)</span>
+                    </div>
+                    <div class="p-bar">
+                        <div class="p-fill" style="width: ${percent}%;"></div>
+                    </div>
+                </div>
+
+                ${roomHtml}
+                ${btnHtml}
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Render Leaderboard
+    function renderLeaderboard() {
+        const container = document.getElementById('ranking-list-container');
+        container.innerHTML = '';
+
+        state.leaderboard.forEach(p => {
+            const row = document.createElement('div');
+            row.style.background = 'var(--bg-secondary)';
+            row.style.border = p.name === state.user.name ? '1px solid var(--cyan)' : '1px solid rgba(255,255,255,0.06)';
+            row.style.borderRadius = '10px';
+            row.style.padding = '10px 14px';
+            row.style.display = 'flex';
+            row.style.justifyContent = 'space-between';
+            row.style.alignItems = 'center';
+
+            const rankCol = p.rank === 1 ? 'var(--gold)' : p.rank === 2 ? '#94a3b8' : p.rank === 3 ? '#b45309' : 'var(--text-gray)';
+
+            row.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-family:'Orbitron'; font-size:16px; font-weight:700; color:${rankCol}; width:24px;">#${p.rank}</span>
+                    <div>
+                        <div style="font-weight:700; font-size:14px;">${p.name}</div>
+                        <div style="font-size:11px; color:var(--text-gray);">UID: ${p.uid}</div>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color:var(--green); font-weight:700; font-size:13px;">${p.wins} Wins</div>
+                    <div style="color:var(--orange); font-size:11px;">${p.kills} Kills</div>
+                </div>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    // Render Community Chat
+    function renderChat() {
+        const box = document.getElementById('chat-messages-box');
+        box.innerHTML = '';
+        state.chat.forEach(c => {
+            const m = document.createElement('div');
+            m.className = 'chat-msg';
+            m.innerHTML = `<div class="chat-sender">${c.sender}</div><div>${c.text}</div>`;
+            box.appendChild(m);
+        });
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function sendChatMessage() {
+        const inp = document.getElementById('inp-chat-msg');
+        const txt = inp.value.trim();
+        if (!txt) return;
+
+        state.chat.push({ sender: state.user.name, text: txt });
+        inp.value = '';
+        renderChat();
+    }
+
+    // Daily Bonus
+    function claimDailyReward() {
+        state.user.coins += 20;
+        updateHeaderAndUserStats();
+        toast("🎁 +20 Daily Reward Coins added to balance!");
+    }
+
+    // Join Tournament Modal
+    function openJoinModal(id) {
+        state.selectedTourneyId = id;
+        const tourney = state.tournaments.find(t => t.id === id);
+        if (!tourney) return;
+
+        document.getElementById('join-m-title').innerText = tourney.title;
+        document.getElementById('join-m-fee').innerText = `Entry Cost: ${tourney.fee} Coins`;
+        document.getElementById('modal-join').classList.add('active');
+    }
+
+    function executeJoin() {
+        const tourney = state.tournaments.find(t => t.id === state.selectedTourneyId);
+        if (!tourney) return;
+
+        if (state.user.coins < tourney.fee) {
+            toast("❌ Insufficient coins! Please deposit in wallet.");
+            closeModal('modal-join');
+            return;
+        }
+
+        state.user.coins -= tourney.fee;
+        tourney.joined += 1;
+        tourney.hasJoined = true;
+
+        updateHeaderAndUserStats();
+        renderTournaments();
+        closeModal('modal-join');
+        toast("✓ Joined match! Room ID & Password unlocked.");
+    }
+
+    // Squad Registration
+    function openSquadModal() {
+        document.getElementById('modal-squad').classList.add('active');
+    }
+
+    function saveSquadTeam() {
+        const name = document.getElementById('sq-team-name').value;
+        if (!name) {
+            toast("Please enter team name!");
+            return;
+        }
+        closeModal('modal-squad');
+        toast(`🛡️ Team "${name}" registered for squad tournaments!`);
+    }
+
+    // Wallet Deposit
+    function handleDepositSubmit() {
+        const amt = document.getElementById('inp-deposit-amt').value;
+        const tx = document.getElementById('inp-deposit-txid').value;
+
+        if (!amt || !tx) {
+            toast("Amount and Transaction ID are required!");
+            return;
+        }
+
+        toast("✓ Deposit submitted! Admin Abdullah will verify your TxID.");
+        document.getElementById('inp-deposit-amt').value = '';
+        document.getElementById('inp-deposit-txid').value = '';
+        document.getElementById('inp-deposit-sender').value = '';
+    }
+
+    // Admin Publish Tournament
+    function publishAdminTournament() {
+        const name = document.getElementById('adm-match-name').value;
+        const map = document.getElementById('adm-match-map').value;
+        const mode = document.getElementById('adm-match-mode').value;
+        const fee = parseInt(document.getElementById('adm-match-fee').value) || 50;
+        const prize = parseInt(document.getElementById('adm-match-prize').value) || 2000;
+        const time = document.getElementById('adm-match-time').value || "Tonight 10:00 PM";
+
+        if (!name) {
+            toast("Please enter match name!");
+            return;
+        }
+
+        state.tournaments.unshift({
+            id: Date.now(),
+            title: name,
+            map: map,
+            mode: mode,
+            fee: fee,
+            prize: prize,
+            perKill: Math.round(fee * 0.4),
+            time: time,
+            joined: 1,
+            max: mode === 'Solo' ? 48 : mode === 'Duo' ? 24 : 12,
+            status: "UPCOMING",
+            roomId: "",
+            roomPass: "",
+            hasJoined: false
+        });
+
+        document.getElementById('adm-match-name').value = '';
+        document.getElementById('adm-match-fee').value = '';
+        document.getElementById('adm-match-prize').value = '';
+        document.getElementById('adm-match-time').value = '';
+
+        renderTournaments();
+        showScreen('arena');
+        toast("✓ New tournament match published to arena!");
+    }
+
+    // Utility: Copy to clipboard
+    function copyToClipboard(text, label) {
+        navigator.clipboard.writeText(text);
+        toast(`✓ Copied ${label}: ${text}`);
+    }
+
+    // Utility: Toast Banner
+    function toast(msg) {
+        const el = document.getElementById('toast-banner');
+        el.innerText = msg;
+        el.style.display = 'block';
+        setTimeout(() => { el.style.display = 'none'; }, 2600);
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
+    }
+
+    function openProfileModal() {
+        document.getElementById('modal-drawer').classList.add('active');
+    }
+
+    function openDrawerModal() {
+        document.getElementById('modal-drawer').classList.add('active');
+    }
+
+    // Update Topbar and User stats
+    function updateHeaderAndUserStats() {
+        document.getElementById('txt-header-coins').innerText = state.user.coins;
+        document.getElementById('txt-wallet-coins').innerText = `${state.user.coins} COINS`;
+        document.getElementById('txt-stat-matches').innerText = state.user.matches;
+        document.getElementById('txt-stat-wins').innerText = state.user.wins;
+        document.getElementById('txt-stat-kills').innerText = state.user.kills;
+    }
+
+    // Initialize on page ready
+    window.onload = function() {
+        updateHeaderAndUserStats();
+        renderTournaments();
+        renderLeaderboard();
+        renderChat();
+    };
+</script>
+
+</body>
+</html>
